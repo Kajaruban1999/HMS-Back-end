@@ -1,13 +1,11 @@
 package com.HMS.HMS.Entities;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class Rooms {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

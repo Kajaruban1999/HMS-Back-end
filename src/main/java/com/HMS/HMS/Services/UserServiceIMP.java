@@ -11,12 +11,8 @@ import java.util.Optional;
 @Service
 public class UserServiceIMP implements UserService {
 
-    private final UserRepo userRepo;
-
     @Autowired
-    public UserServiceIMP(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    private UserRepo userRepo;
 
     @Override
     public Users saveUser(Users users) {

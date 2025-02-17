@@ -4,9 +4,8 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class Users {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

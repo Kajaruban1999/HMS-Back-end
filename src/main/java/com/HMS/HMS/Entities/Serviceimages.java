@@ -1,18 +1,20 @@
 package com.HMS.HMS.Entities;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Serviceimages {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pic;
 
-    @ManyToOne
+    @Lob
+    @JsonProperty("pic")
+    private byte[] pic;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "service_id")
     private Services service;
 }

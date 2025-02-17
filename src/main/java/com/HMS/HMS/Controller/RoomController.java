@@ -21,8 +21,14 @@ public class RoomController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Rooms>createRooms(@RequestBody Rooms rooms){
-        return ResponseEntity.ok((Rooms) roomService.saveRoom(rooms));
+    public ResponseEntity<String>createRooms(@RequestBody Rooms rooms){
+        try{
+            roomService.saveRoom(rooms);
+        }
+       catch (RuntimeException r){
+            return ResponseEntity.ok((r.getMessage()+ "Something went wrong"));
+       }
+        return ResponseEntity.ok(("Ok"));
     }
 
     @GetMapping("/{id}")
