@@ -20,10 +20,13 @@ public class PromocodeController {
     public PromocodeController(PromoCodeServiceIMP promoCodeService){
         this.promoCodeService=promoCodeService;
     }
+
     @PostMapping("/create")
     public ResponseEntity<Promocode> createPromo(@RequestBody Promocode promocode) {
+        Promocode savedPromo = promoCodeService.savePromo(promocode);
         return ResponseEntity.ok((Promocode) promoCodeService.savePromo(promocode));
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Promocode>> getPromoById(@PathVariable Long id) {
         return ResponseEntity.ok(promoCodeService.getById(id));
@@ -33,6 +36,7 @@ public class PromocodeController {
     public ResponseEntity<List<Promocode>> getAllPromo() {
         return ResponseEntity.ok(promoCodeService.getAllPromo());
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePromo(@PathVariable Long id) {
         promoCodeService.DeletePromo(id);

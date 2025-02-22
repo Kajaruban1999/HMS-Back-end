@@ -2,15 +2,19 @@ package com.HMS.HMS.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Booking {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String checkIn;
-    private String checkOut;
+
+    private LocalDate checkIn;
+    private LocalDate checkOut;
     private int duration;
     private int participants;
 

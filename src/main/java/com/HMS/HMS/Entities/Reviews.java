@@ -1,7 +1,7 @@
 package com.HMS.HMS.Entities;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
+
 
 @Entity
 @Data

@@ -35,9 +35,9 @@ public class BookingServiceIMP implements BookingService{
     public Booking saveBooking(BookingDto bookingDto){
         Booking booking = new Booking();
         BeanUtils.copyProperties(bookingDto, booking);
-         Users users = userRepo.findById(bookingDto.getUserId()).orElseThrow(()-> new RuntimeException("User Not Found"));
-        Rooms rooms =  roomRepo.findById(bookingDto.getRoomId()).orElseThrow(() -> new RuntimeException("Room not found"));
-        Services  services = serviceRepo.findById(bookingDto.getServiceId()).orElseThrow(()-> new RuntimeException("Service not found"));
+         Users users = userRepo.findById(bookingDto.getUserId()).orElseThrow(()-> new RuntimeException("User Not Found "));
+         Rooms rooms =  roomRepo.findById(bookingDto.getRoomId()).orElseThrow(() -> new RuntimeException("Room not found "));
+         Services  services = serviceRepo.findById(bookingDto.getServiceId()).orElseThrow(()-> new RuntimeException("Service not found "));
 
         booking.setService(services);
         booking.setRoom(rooms);

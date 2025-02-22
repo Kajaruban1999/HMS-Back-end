@@ -5,13 +5,13 @@ import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Billing {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int amount;
+    private String paymentType;
     private String paymentDate;
+
 
     @OneToOne
     @JoinColumn(name = "booking_id")

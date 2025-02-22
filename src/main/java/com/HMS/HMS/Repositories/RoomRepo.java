@@ -8,6 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepo extends JpaRepository<Rooms,Long> {
-    Optional<Rooms> findById(Long aLong);
-    Optional<Rooms>findByName(String name);
 }

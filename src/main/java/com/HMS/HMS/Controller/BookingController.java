@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/booking")
 public class BookingController {
@@ -20,16 +19,16 @@ public class BookingController {
     public BookingController (BookingServiceIMP bookingService){
         this.bookingService=bookingService;
     }
+
     @PostMapping("/create")
     public ResponseEntity<String> createBooking(@RequestBody BookingDto booking){
         try{
-
-           Booking booking1 = bookingService.saveBooking(booking);
-            System.out.println(booking1);
+           bookingService.saveBooking(booking);
         }
         catch (RuntimeException r){
-            return ResponseEntity.ok((r.getMessage()+ "Something went wrong"));
+            System.out.println(r.getMessage());
+            return ResponseEntity.ok((r.getMessage()));
         }
-        return ResponseEntity.ok(("Ok"));
+        return ResponseEntity.ok(("saved Booking"));
     }
 }

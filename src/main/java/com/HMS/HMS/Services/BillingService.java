@@ -1,5 +1,8 @@
 package com.HMS.HMS.Services;
 
-public interface BillingService {
+import com.HMS.HMS.Entities.Billing;
+import com.HMS.HMS.dto.BillingDto;
 
+public interface BillingService {
+    Billing saveBilling(BillingDto billing);
 }
