@@ -12,6 +12,6 @@ public class Promocode {
     private double discount;
     private String description;
 
-    @OneToMany(mappedBy = "promoCode")
+    @OneToMany(mappedBy = "promoCode", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Userpromo> userPromos;
 }

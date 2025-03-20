@@ -1,11 +1,16 @@
 package com.HMS.HMS.Controller;
 
 import com.HMS.HMS.Entities.Rooms;
+import com.HMS.HMS.Entities.Roomsimages;
 import com.HMS.HMS.Services.RoomServiceIMP;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,15 +25,34 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<String>createRooms(@RequestBody Rooms rooms){
-        try{
-            roomService.saveRoom(rooms);
+    @PostMapping(value = "/create", consumes = {"multipart/form-data"})
+    @Transactional
+    public ResponseEntity<String> createRooms(
+            @RequestParam("name") String name,
+            @RequestParam("capacity") int capacity,
+            @RequestParam("price") int price,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+        try {
+            Rooms room = new Rooms();
+            room.setName(name);
+            room.setCapacity(capacity);
+            room.setPrice(price);
+            room.setDescription(description);
+            List<Roomsimages> images = new ArrayList<>();
+            if (image != null && !image.isEmpty()) {
+                Roomsimages roomImage = new Roomsimages();
+                roomImage.setPic(image.getBytes());
+                roomImage.setRoom(room);
+                images.add(roomImage);
+            }
+            room.setImages(images);
+
+            roomService.saveRoom(room);
+            return ResponseEntity.ok("Room created successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error creating room: " + e.getMessage());
         }
-       catch (RuntimeException r){
-            return ResponseEntity.ok((r.getMessage()+ "Something went wrong"));
-       }
-        return ResponseEntity.ok(("Ok"));
     }
 
     @GetMapping("/{id}")

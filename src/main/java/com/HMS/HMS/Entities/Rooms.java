@@ -14,6 +14,6 @@ public class Rooms {
     private int price;
     private String description;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Roomsimages> images;
 }

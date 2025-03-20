@@ -14,6 +14,6 @@ public class Services {
     private int price;
     private String description;
 
-    @OneToMany(mappedBy = "service")
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Serviceimages> images;
 }

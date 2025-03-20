@@ -23,16 +23,16 @@ public class RoomServiceIMP implements RoomService{
     public Rooms saveRoom(Rooms rooms){
         Rooms savedRoom = roomRepo.save(rooms);
 
-        // Save images if they exist
-        if (rooms.getImages() != null) {
+        if (rooms.getImages() != null && !rooms.getImages().isEmpty()) {
             for (Roomsimages image : rooms.getImages()) {
-                image.setPic(Base64.decodeBase64(new String(image.getPic())));
                 image.setRoom(savedRoom);
-                roomImageRepo.save(image);
-
+                try {
+                    roomImageRepo.save(image);
+                } catch (Exception e) {
+                    System.out.println("Error saving image: " + e.getMessage());
+                }
             }
         }
-
 
         return savedRoom;
 
