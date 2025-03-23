@@ -1,4 +1,5 @@
 package com.HMS.HMS.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,8 +13,9 @@ public class Serviceimages {
 
     @Lob
     @JsonProperty("pic")
-    private byte[] pic;
+    private String pic;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "service_id")
     private Services service;

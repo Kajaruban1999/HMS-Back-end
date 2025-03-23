@@ -1,4 +1,6 @@
 package com.HMS.HMS.Entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,10 +15,11 @@ public class Roomsimages {
     private Long id;
 
     @Lob
-    @JsonProperty("pic") // Ensures database supports large binary data
-    private byte[] pic;
+    @JsonProperty("pic")
+    private String pic;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Rooms room;
 }

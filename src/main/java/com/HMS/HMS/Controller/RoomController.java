@@ -8,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.util.Base64;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +20,7 @@ public class RoomController {
     private RoomServiceIMP roomService;
 
     @Autowired
-    public RoomController (RoomServiceIMP roomService){
+    public RoomController(RoomServiceIMP roomService) {
         this.roomService = roomService;
     }
 
@@ -40,9 +39,12 @@ public class RoomController {
             room.setPrice(price);
             room.setDescription(description);
             List<Roomsimages> images = new ArrayList<>();
+
             if (image != null && !image.isEmpty()) {
                 Roomsimages roomImage = new Roomsimages();
-                roomImage.setPic(image.getBytes());
+                // Convert image bytes to Base64 string
+                String base64Image = Base64.getEncoder().encodeToString(image.getBytes());
+                roomImage.setPic(base64Image);
                 roomImage.setRoom(room);
                 images.add(roomImage);
             }
@@ -56,18 +58,27 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Rooms>>getRoomById(@PathVariable Long id){
-        return ResponseEntity.ok(roomService.GetRoomsById(id));
+    public ResponseEntity<Optional<Rooms>> getRoomById(@PathVariable Long id) {
+        Optional<Rooms> room = roomService.GetRoomsById(id);
+        return ResponseEntity.ok(room);
     }
 
     @GetMapping
-    public ResponseEntity<List<Rooms>>getAllrooms(){
-        return ResponseEntity.ok(roomService.GetAllRooms());
+    public ResponseEntity<List<Rooms>> getAllrooms() {
+        List<Rooms> rooms = roomService.GetAllRooms();
+        return ResponseEntity.ok(rooms);
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<String>deleteRooms(@PathVariable Long id){
+    public ResponseEntity<String> deleteRooms(@PathVariable Long id) {
         roomService.DeleteRoom(id);
         return ResponseEntity.ok("Delete successfully");
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Rooms> updateRoom(@PathVariable Long id, @RequestBody Rooms updatedRoom) {
+        return roomService.updateRoom(id, updatedRoom)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

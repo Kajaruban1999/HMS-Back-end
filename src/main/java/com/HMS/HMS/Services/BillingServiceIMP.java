@@ -25,4 +25,8 @@ public class BillingServiceIMP implements BillingService{
         billing.setBooking(booking);
         return billingRepo.save(billing);
     }
+    public Billing getBillingByBookingId(Long bookingId) {
+        return billingRepo.findByBookingId(bookingId)
+                .orElseThrow(() -> new RuntimeException("Billing not found for booking ID: " + bookingId));
+    }
 }

@@ -1,14 +1,12 @@
 package com.HMS.HMS.Services;
 
-import com.HMS.HMS.Entities.Rooms;
-import com.HMS.HMS.Entities.Roomsimages;
 import com.HMS.HMS.Entities.Serviceimages;
 import com.HMS.HMS.Entities.Services;
 import com.HMS.HMS.Repositories.ServiceImageRepo;
 import com.HMS.HMS.Repositories.ServiceRepo;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +21,18 @@ public class SerServiceIMP implements SerService {
     private ServiceImageRepo serviceImageRepo;
 
     @Override
+    @Transactional
     public Services saveService(Services services) {
         Services savedService = serviceRepo.save(services);
 
-        if (services.getImages() != null) {
+        if (services.getImages() != null && !services.getImages().isEmpty()) {
             for (Serviceimages image : services.getImages()) {
-                image.setPic(Base64.decodeBase64(new String(image.getPic())));
                 image.setService(savedService);
-                serviceImageRepo.save(image);
+                try {
+                    serviceImageRepo.save(image);
+                } catch (Exception e) {
+                    System.out.println("Error saving image: " + e.getMessage());
+                }
             }
         }
 
@@ -48,7 +50,29 @@ public class SerServiceIMP implements SerService {
     }
 
     @Override
+    @Transactional
     public void DeleteService(Long id) {
         serviceRepo.deleteById(id);
+    }
+
+    @Transactional
+    public Services updateService(Long id, Services updatedService) {
+        Optional<Services> existingServiceOpt = serviceRepo.findById(id);
+        if (existingServiceOpt.isPresent()) {
+            Services service = existingServiceOpt.get();
+            service.setName(updatedService.getName());
+            service.setPrice(updatedService.getPrice());
+            service.setDescription(updatedService.getDescription());
+            if (updatedService.getImages() != null && !updatedService.getImages().isEmpty()) {
+                service.getImages().clear();
+                List<Serviceimages> newImages = updatedService.getImages();
+                newImages.forEach(img -> {
+                    img.setService(service);
+                });
+                service.getImages().addAll(newImages);
+            }
+            return serviceRepo.save(service);
+        }
+        return null;
     }
 }

@@ -1,4 +1,5 @@
 package com.HMS.HMS.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,14 +17,16 @@ public class Userpromo {
 
     private LocalDate fromDate;
     private LocalDate toDate;
+    private Boolean status;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "promoCode_id")
     private Promocode promoCode;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id")
     private Users user;
-
 
 }
