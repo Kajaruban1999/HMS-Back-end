@@ -4,6 +4,8 @@ import com.HMS.HMS.Entities.Contact_form;
 import com.HMS.HMS.Services.Contact_FormServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ public class Contact_formController {
     }
     @PostMapping("/create")
     public ResponseEntity<Contact_form>createContact(@RequestBody Contact_form contact_form){
+        contact_form.setStatus(true);
         return ResponseEntity.ok((contactForm).saveContactForm(contact_form));
     }
 
@@ -31,6 +34,18 @@ public class Contact_formController {
     @GetMapping
     public ResponseEntity<List<Contact_form>> getAllContact() {
         return ResponseEntity.ok(contactForm.getAllContact());
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id) {
+        try {
+            contactForm.updateStatus(id);
+            return ResponseEntity.ok().body("Ok");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Server error");
+        }
     }
 
     @DeleteMapping("/{id}")

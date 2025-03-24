@@ -31,4 +31,10 @@ public class Contact_FormServiceIMP implements Contact_FormService {
     public void deleteContact(Long id) {
         contact_formRepo.deleteById(id);
     }
+    public void updateStatus(Long id) {
+        Contact_form contactForm = contact_formRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Form not found"));
+        contactForm.setStatus(!contactForm.getStatus());
+        contact_formRepo.save(contactForm);
+    }
 }

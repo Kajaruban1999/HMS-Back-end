@@ -3,10 +3,7 @@ package com.HMS.HMS.Controller;
 import com.HMS.HMS.Services.ReviewServiceIMP;
 import com.HMS.HMS.dto.ReviewDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Review")
@@ -30,4 +27,17 @@ public class ReviewController {
 
         return ResponseEntity.ok(("saved Review"));
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllReview(){
+        return ResponseEntity.ok(reviewService.getAllReview());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

@@ -38,4 +38,5 @@ public class AuthController {
         Users user = authService.updateUser(updatedUser);
         return ResponseEntity.ok(user);
     }
+
 }

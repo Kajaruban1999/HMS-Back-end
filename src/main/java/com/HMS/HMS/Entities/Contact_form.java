@@ -12,4 +12,5 @@ public class Contact_form {
     private String name;
     private String email;
     private String message;
+    private Boolean status;
 }
